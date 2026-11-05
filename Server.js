@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://labflowlab.netlify.app/",
+    origin: "https://labflowlab.netlify.app",
     credentials: true,
   }),
 );
