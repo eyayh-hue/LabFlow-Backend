@@ -178,5 +178,25 @@ analyseRouter.delete(
     }
   },
 );
+analyseRouter.delete("/admin/delete/:id", isAuth, async (req, res) => {
+  try {
+    if (req.user.role !== "Admin" && req.user.role !== "SubAdmin") {
+      return res.status(403).json({ error: "Accès refusé" });
+    }
+
+    const deleted = await Analyse.findByIdAndDelete(req.params.id);
+
+    if (!deleted) {
+      return res.status(404).json({ error: "Analyse introuvable" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Analyse supprimée par l'admin avec succès" });
+  } catch (error) {
+    console.error("ERREUR ADMIN DELETE:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = analyseRouter;
